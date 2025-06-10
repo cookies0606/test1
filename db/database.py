@@ -1,7 +1,16 @@
 import streamlit as st
 from datetime import date
-from db.database import SessionLocal, init_db
 from db.models import Employee
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from db.models import Base
+
+engine = create_engine("sqlite:///employees.db")
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def init_db():
+    Base.metadata.create_all(bind=engine)
 
 # DB 초기화
 init_db()
